@@ -1,0 +1,102 @@
+using Application.DTOs;
+using Application.Interfaces;
+using ManoaAmigas.Domain.Utilities;
+using ManoaAmigas.Domain.Entities;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+
+namespace Application.Services
+{
+    public class AuthResult
+    {
+        public string Token { get; set; } = null!;
+        public Person Person { get; set; } = null!;
+    }
+
+    public class AuthService
+    {
+        private readonly IUserRepository _userRepository;
+        private readonly IConfiguration _configuration;
+
+        public AuthService(IUserRepository userRepository, IConfiguration configuration)
+        {
+            _userRepository = userRepository;
+            _configuration = configuration;
+        }
+
+        public async Task<AuthResult> RegisterAsync(RegisterDto dto)
+        {
+            var existing = await _userRepository.GetByEmailAsync(dto.Email);
+            if (existing != null)
+                throw new InvalidOperationException("Ya existe el usuario con el email registrado");
+
+            var hash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+            var person = new Person
+            {
+                person_id = AuthHelpers.GenerateNumericId(),
+                email = dto.Email,
+                password_hash = hash,
+                first_names = dto.FirstNames,
+                last_names = dto.LastNames,
+                identification_number = dto.IdentificationNumber,
+                identification_type = dto.IdentificationType,
+                phone_number = dto.PhoneNumber,
+                date_of_birth = dto.DateOfBirth,
+                role = dto.Role,
+                registration_date = DateTime.UtcNow,
+                account_status = 'U', //Every new user is unverified
+                meets_requirements = false,
+                last_updated = DateTime.UtcNow
+            };
+
+            await _userRepository.CreateAsync(person);
+
+            var token = GenerateToken(person);
+            return new AuthResult { Token = token, Person = person };
+        }
+
+        public async Task<AuthResult> LoginAsync(LoginDto dto)
+        {
+            var person = await _userRepository.GetByEmailAsync(dto.Email);
+
+            if (person == null) throw new InvalidOperationException("Usuario inválido.");
+
+            if (!BCrypt.Net.BCrypt.Verify(dto.Password, person.password_hash)) throw new InvalidOperationException("Contraseña incorrecta");
+
+            var token = GenerateToken(person);
+            return new AuthResult { Token = token, Person = person };
+        }
+
+        private string GenerateToken(Person person)
+        {
+            var secret = _configuration["Jwt:Key"] ?? "PioT0W4SgK7pQpXyVbJ9mFhLcVzG3ManoseR8nUaE1iZ2oD6YxAmigasCwB5qI4tP0uHlJ2rK6sM8Pio";
+            var issuer = _configuration["Jwt:Issuer"] ?? "ManosAmigas";
+            var audience = _configuration["Jwt:Audience"] ?? "ManosAmigasClients";
+
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
+            var creds = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var jti = Guid.NewGuid().ToString();
+
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, person.person_id),
+                new Claim(JwtRegisteredClaimNames.Email, person.email ?? string.Empty),
+                new Claim(JwtRegisteredClaimNames.Jti, jti),
+                new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: issuer,
+                audience: audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(8),
+                signingCredentials: creds);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+    }
+}
