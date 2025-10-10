@@ -1,4 +1,14 @@
-﻿.vs/
-bin/
+﻿# Carpeta de caché de Visual Studio (la causa del error de permisos)
+.vs/
 
-obj/
+# Carpetas de binarios de .NET (ejecutables y DLLs)
+[Bb]in/
+
+# Carpetas de objetos temporales de .NET (caché de compilación)
+[Oo]bj/
+
+# Archivos de caché del SO (a veces se generan)
+*.vsidx
+
+# Archivos de configuración de desarrollo (contienen secretos o claves locales)
+appsettings.Development.json
