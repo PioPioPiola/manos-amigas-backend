@@ -8,5 +8,7 @@ namespace Application.Interfaces
         Task CreateAsync(Person person);
 
         Task<Person?> GetByEmailAsync(string email);
+
+        Task CreateAsync(PersonDocument personDocument);
     }
 }
