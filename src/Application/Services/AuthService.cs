@@ -3,6 +3,7 @@ using Application.Interfaces;
 using ManoaAmigas.Domain.Utilities;
 using ManoaAmigas.Domain.Entities;
 using Microsoft.Extensions.Configuration;
+using Infrastructure.Security.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -20,11 +21,13 @@ namespace Application.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
+        private readonly IRevocationStore _revocationStore;
 
-        public AuthService(IUserRepository userRepository, IConfiguration configuration)
+        public AuthService(IUserRepository userRepository, IConfiguration configuration, IRevocationStore revocationStore)
         {
             _userRepository = userRepository;
             _configuration = configuration;
+            _revocationStore = revocationStore;
         }
 
         public async Task<AuthResult> RegisterAsync(RegisterDto dto)
@@ -70,8 +73,32 @@ namespace Application.Services
             return new AuthResult { Token = token, Person = person };
         }
 
+        public async Task RevokeTokenAsync(string? jti, string? expClaim)
+        {
+            if (string.IsNullOrEmpty(jti) || string.IsNullOrEmpty(expClaim))
+            {
+                await _revocationStore.RevokeAsync(jti ?? Guid.NewGuid().ToString(), TimeSpan.FromMinutes(15));
+                return;
+            }
+
+            if (!long.TryParse(expClaim, out var expUnix))
+            {
+                await _revocationStore.RevokeAsync(jti, TimeSpan.FromMinutes(15));
+                return;
+            }
+
+            var expiresAt = DateTimeOffset.FromUnixTimeSeconds(expUnix);
+            var ttl = expiresAt - DateTimeOffset.UtcNow;
+
+            if (ttl < TimeSpan.Zero) ttl = TimeSpan.Zero;
+
+            if (ttl > TimeSpan.Zero)
+                await _revocationStore.RevokeAsync(jti, ttl);
+        }
+
         private string GenerateToken(Person person)
         {
+            //TO DO: Don't work with claims, create own session
             var secret = _configuration["Jwt:Key"] ?? "PioT0W4SgK7pQpXyVbJ9mFhLcVzG3ManoseR8nUaE1iZ2oD6YxAmigasCwB5qI4tP0uHlJ2rK6sM8Pio";
             var issuer = _configuration["Jwt:Issuer"] ?? "ManosAmigas";
             var audience = _configuration["Jwt:Audience"] ?? "ManosAmigasClients";
@@ -93,7 +120,7 @@ namespace Application.Services
                 issuer: issuer,
                 audience: audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(8),
+                expires: DateTime.UtcNow.AddHours(3),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

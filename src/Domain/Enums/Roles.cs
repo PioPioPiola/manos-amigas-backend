@@ -8,8 +8,8 @@ namespace Domain.Enums
 {
     internal class Roles
     {
-        public const char Admin = 'A';
-        public const char Client = 'C';
-        public const char Provider = 'P';
+        public const char Admin = '0';
+        public const char Client = '1';
+        public const char Provider = '2';
     }
 }

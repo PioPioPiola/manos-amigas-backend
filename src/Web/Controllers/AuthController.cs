@@ -1,11 +1,9 @@
 using Application.DTOs;
 using Application.Services;
-using Infrastructure.Security.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Web.Controllers
 {
@@ -14,12 +12,10 @@ namespace Web.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AuthService _authService;
-        private readonly IRevocationStore _revocationStore;
 
-        public AuthController(AuthService authService, IRevocationStore revocationStore)
+        public AuthController(AuthService authService)
         {
             _authService = authService;
-            _revocationStore=revocationStore;
         }
 
         [HttpPost("register")]
@@ -70,30 +66,14 @@ namespace Web.Controllers
             }
         }
 
+        [Authorize] 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
             var jti = User.FindFirstValue(JwtRegisteredClaimNames.Jti);
-
             var expClaim = User.FindFirstValue(JwtRegisteredClaimNames.Exp);
-            if (string.IsNullOrEmpty(jti) || string.IsNullOrEmpty(expClaim))
-            {
-                await _revocationStore.RevokeAsync(jti ?? Guid.NewGuid().ToString(), TimeSpan.FromMinutes(15));
-                return Ok();
-            }
 
-            if (!long.TryParse(expClaim, out var expUnix))
-            {
-                await _revocationStore.RevokeAsync(jti, TimeSpan.FromMinutes(15));
-                return Ok();
-            }
-
-            var expiresAt = DateTimeOffset.FromUnixTimeSeconds(expUnix);
-            var ttl = expiresAt - DateTimeOffset.UtcNow;
-            if (ttl < TimeSpan.Zero) ttl = TimeSpan.Zero;
-
-            if (ttl > TimeSpan.Zero)
-                await _revocationStore.RevokeAsync(jti, ttl);
+            await _authService.RevokeTokenAsync(jti, expClaim);
 
             return Ok();
         }
