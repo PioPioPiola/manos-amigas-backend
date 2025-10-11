@@ -29,10 +29,12 @@ namespace Web.Controllers
                 {
                     token = result.Token,
                     id = result.Person.person_id,
-                    email = result.Person.person_id,
-                    first_names = result.Person.first_names,
-                    last_names = result.Person.last_names,
-                    rol = result.Person.role
+                    email = result.Person.email,
+                    name = result.Person.name,
+                    //first_names = result.Person.first_names,
+                    //last_names = result.Person.last_names,
+                    rol = result.Person.role,
+                    gender = result.Person.gender
                 };
                 return Ok(data);
             }
@@ -53,10 +55,12 @@ namespace Web.Controllers
                 {
                     token = result.Token,
                     id = result.Person.person_id,
-                    email = result.Person.person_id,
-                    first_names = result.Person.first_names,
-                    last_names = result.Person.last_names,
-                    rol = result.Person.role
+                    email = result.Person.email,
+                    name = result.Person.name,
+                    //first_names = result.Person.first_names,
+                    //last_names = result.Person.last_names,
+                    rol = result.Person.role,
+                    gender = result.Person.gender
                 };
                 return Ok(data);
             }

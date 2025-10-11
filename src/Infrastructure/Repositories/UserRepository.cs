@@ -25,5 +25,11 @@ namespace Infrastructure.Repositories
         {
             return await _db.person.FirstOrDefaultAsync(u => u.email == email);
         }
+
+        public async Task CreateAsync(PersonDocument personDocument)
+        {
+            _db.persondocument.Add(personDocument);
+            await _db.SaveChangesAsync();
+        }
     }
 }

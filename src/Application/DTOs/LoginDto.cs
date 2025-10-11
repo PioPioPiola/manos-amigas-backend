@@ -6,8 +6,6 @@ namespace Application.DTOs
 
         public string Password { get; set; } = null!;
 
-        public char Rol { get; set; }
-
         public bool? RememberMe { get; set; } = false;
     }
 }

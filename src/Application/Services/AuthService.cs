@@ -15,6 +15,7 @@ namespace Application.Services
     {
         public string Token { get; set; } = null!;
         public Person Person { get; set; } = null!;
+        public Person PersonDocument { get; set; } = null!;
     }
 
     public class AuthService
@@ -42,8 +43,9 @@ namespace Application.Services
                 person_id = AuthHelpers.GenerateNumericId(),
                 email = dto.Email,
                 password_hash = hash,
-                first_names = dto.FirstNames,
-                last_names = dto.LastNames,
+                name = dto.Name,
+                first_names = dto.Name,
+                last_names = dto.Name,
                 identification_number = dto.IdentificationNumber,
                 identification_type = dto.IdentificationType,
                 phone_number = dto.PhoneNumber,
@@ -52,10 +54,30 @@ namespace Application.Services
                 registration_date = DateTime.UtcNow,
                 account_status = 'U', //Every new user is unverified
                 meets_requirements = false,
-                last_updated = DateTime.UtcNow
+                last_updated = DateTime.UtcNow,
+                gender = dto.Gender,
+                address = dto.Address,
+                department = dto.Department,
+                city = dto.City,
+                postal_code = dto.PostalCode,
+                security_question = dto.SecurityQuestion,
+                security_answer = dto.SecurityAnswer,
+                accept_terms = dto.AcceptTerms,
+                accept_data_policy = dto.AcceptDataPolicy,
+                wants_notifications = dto.WantsNotifications
+            };
+
+            var personDocument = new PersonDocument
+            {
+                person_id = person.person_id,
+                document_id = dto.DocTypeId,
+                doctype_id = dto.DocTypeId,
+                issue_date = dto.IssueDate,
+                issue_place = dto.IssuePlace
             };
 
             await _userRepository.CreateAsync(person);
+            await _userRepository.CreateAsync(personDocument);
 
             var token = GenerateToken(person);
             return new AuthResult { Token = token, Person = person };

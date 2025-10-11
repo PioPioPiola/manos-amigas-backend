@@ -10,5 +10,6 @@ namespace Infrastructure.Data
         }
 
         public DbSet<Person> person { get; set; } = null!;
+        public DbSet<PersonDocument> persondocument { get; set; } = null!;
     }
 }
