@@ -5,15 +5,15 @@
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA7LEG+KSOTEmWbmkIcGEKhwAAAAACAAAAAAAQZgAAAAEAACAAAACGHySauxTzzF/kylDKunP+WEdreLjvXCKqjWFpwYgasAAAAAAOgAAAAAIAACAAAADasF0gyMBuiu2QjdYot7Jzjo+l98d7dtfHlIazbDetIiAAAABFvp1sVsDeBV+BGdsvCOwqkNiV2xpq5mST3baeRqmUcUAAAABEcvSO0e4XW/ez7YiKXXA7hkWPImQ2f4cqGXdVfg1nwGcx3pmIL8UAWTFawQQ+q2VHNDLmyz0tFYwEJ6iYkzd1</EncryptedPassword>
     <_PublishTargetUrl>ftp://manosamigas.somee.com/www.ManosAmigas.somee.com</_PublishTargetUrl>
-    <History>True|2025-10-11T01:32:26.4643027Z||;</History>
+    <History>True|2025-10-11T16:39:02.1545606Z||;True|2025-10-10T20:32:26.4643027-05:00||;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
     <File Include="Application.dll">
-      <publishTime>10/10/2025 20:28:02</publishTime>
+      <publishTime>10/11/2025 11:37:51</publishTime>
     </File>
     <File Include="Application.pdb">
-      <publishTime>10/10/2025 20:28:02</publishTime>
+      <publishTime>10/11/2025 11:37:51</publishTime>
     </File>
     <File Include="appsettings.json">
       <publishTime>10/10/2025 18:52:59</publishTime>
@@ -22,16 +22,16 @@
       <publishTime>03/03/2022 11:10:20</publishTime>
     </File>
     <File Include="Domain.dll">
-      <publishTime>10/10/2025 20:27:46</publishTime>
+      <publishTime>10/11/2025 11:37:49</publishTime>
     </File>
     <File Include="Domain.pdb">
-      <publishTime>10/10/2025 20:27:46</publishTime>
+      <publishTime>10/11/2025 11:37:49</publishTime>
     </File>
     <File Include="Infrastructure.dll">
-      <publishTime>10/10/2025 20:28:25</publishTime>
+      <publishTime>10/11/2025 11:37:50</publishTime>
     </File>
     <File Include="Infrastructure.pdb">
-      <publishTime>10/10/2025 20:28:25</publishTime>
+      <publishTime>10/11/2025 11:37:50</publishTime>
     </File>
     <File Include="Microsoft.AspNetCore.Authentication.JwtBearer.dll">
       <publishTime>10/31/2023 20:08:28</publishTime>
@@ -91,22 +91,22 @@
       <publishTime>08/15/2025 16:51:28</publishTime>
     </File>
     <File Include="web.config">
-      <publishTime>10/10/2025 20:31:09</publishTime>
+      <publishTime>10/11/2025 11:38:04</publishTime>
     </File>
     <File Include="Web.deps.json">
-      <publishTime>10/10/2025 20:30:56</publishTime>
+      <publishTime>10/11/2025 11:38:03</publishTime>
     </File>
     <File Include="Web.dll">
-      <publishTime>10/10/2025 20:30:13</publishTime>
+      <publishTime>10/11/2025 11:38:03</publishTime>
     </File>
     <File Include="Web.exe">
-      <publishTime>10/10/2025 20:30:13</publishTime>
+      <publishTime>10/11/2025 11:38:03</publishTime>
     </File>
     <File Include="Web.pdb">
-      <publishTime>10/10/2025 20:30:13</publishTime>
+      <publishTime>10/11/2025 11:38:03</publishTime>
     </File>
     <File Include="Web.runtimeconfig.json">
-      <publishTime>10/10/2025 20:30:56</publishTime>
+      <publishTime>10/11/2025 11:38:03</publishTime>
     </File>
     <File Include="Web.staticwebassets.endpoints.json">
       <publishTime>10/10/2025 20:31:07</publishTime>

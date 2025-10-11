@@ -70,7 +70,6 @@ namespace Application.Services
             var personDocument = new PersonDocument
             {
                 person_id = person.person_id,
-                document_id = dto.DocTypeId,
                 doctype_id = dto.DocTypeId,
                 issue_date = dto.IssueDate,
                 issue_place = dto.IssuePlace
