@@ -29,7 +29,7 @@ namespace Web.Controllers
                 {
                     token = result.Token,
                     id = result.Person.person_id,
-                    email = result.Person.person_id,
+                    email = result.Person.email,
                     first_names = result.Person.first_names,
                     last_names = result.Person.last_names,
                     rol = result.Person.role
@@ -53,7 +53,7 @@ namespace Web.Controllers
                 {
                     token = result.Token,
                     id = result.Person.person_id,
-                    email = result.Person.person_id,
+                    email = result.Person.email,
                     first_names = result.Person.first_names,
                     last_names = result.Person.last_names,
                     rol = result.Person.role
