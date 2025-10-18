@@ -26,7 +26,7 @@ namespace Application.DTOs
 
         public int DocTypeId { get; set; }
 
-        public string DocumentNumber { get; set; } = null!;
+        public string? DocumentNumber { get; set; } = null;
 
         public DateTime IssueDate { get; set; }
 

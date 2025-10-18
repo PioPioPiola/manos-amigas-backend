@@ -49,7 +49,7 @@ namespace Application.Services
                 identification_number = dto.IdentificationNumber,
                 identification_type = dto.IdentificationType,
                 phone_number = dto.PhoneNumber,
-                date_of_birth = dto.DateOfBirth,
+                date_of_birth = DateTime.UtcNow,
                 role = dto.Role,
                 registration_date = DateTime.UtcNow,
                 account_status = 'U', //Every new user is unverified
@@ -71,7 +71,7 @@ namespace Application.Services
             {
                 person_id = person.person_id,
                 doctype_id = dto.DocTypeId,
-                issue_date = dto.IssueDate,
+                issue_date = DateTime.UtcNow,
                 issue_place = dto.IssuePlace
             };
 
