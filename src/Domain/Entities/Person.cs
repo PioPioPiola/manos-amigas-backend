@@ -7,7 +7,7 @@ namespace ManoaAmigas.Domain.Entities
     {
         [Key]
         public string person_id { get; set; } = null!;
-        public string name { get; set; } = null!;
+        public string? name { get; set; }
         public string first_names { get; set; } = null!;
         public string last_names { get; set; } = null!;
         public char identification_type { get; set; }

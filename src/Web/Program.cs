@@ -73,13 +73,20 @@ if (string.IsNullOrWhiteSpace(conn))
 }
 
 // Configurar EF con Npgsql
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(conn));
 
 // --- Inyección de dependencias ---
 builder.Services.AddSingleton<IRevocationStore, InMemoryRevocationStore>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IProviderCategoryEnrollmentRepository, ProviderCategoryEnrollmentRepository>();
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<PersonService>();
+builder.Services.AddScoped<ProviderCategoryEnrollmentService>();
+builder.Services.AddScoped<ServiceService>();
 
 // --- JWT ---
 var jwtKey = builder.Configuration["Jwt:Key"] ?? Environment.GetEnvironmentVariable("Jwt__Key");

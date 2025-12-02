@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Enums
 {
-    internal class AccountStatus
+    public class AccountStatus
     {
         public const char Unverified = 'U';
         public const char Active = 'A';

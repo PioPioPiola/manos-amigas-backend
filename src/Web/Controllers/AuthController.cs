@@ -34,7 +34,8 @@ namespace Web.Controllers
                     //first_names = result.Person.first_names,
                     //last_names = result.Person.last_names,
                     rol = result.Person.role,
-                    gender = result.Person.gender
+                    gender = result.Person.gender,
+                    account_status = result.Person.account_status
                 };
                 return Ok(data);
             }
@@ -60,7 +61,8 @@ namespace Web.Controllers
                     //first_names = result.Person.first_names,
                     //last_names = result.Person.last_names,
                     rol = result.Person.role,
-                    gender = result.Person.gender
+                    gender = result.Person.gender,
+                    account_status = result.Person.account_status
                 };
                 return Ok(data);
             }

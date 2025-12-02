@@ -9,4 +9,7 @@
     <EmbeddedResource Remove="Models\**" />
     <None Remove="Models\**" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Entities\ProviderCategoryEnrollment.cs~RF299abcd.TMP" />
+  </ItemGroup>
 </Project>
